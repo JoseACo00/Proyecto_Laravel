@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('arbitros', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nombre');
             $table->string('apellido_1');
             $table->string('apellido_2');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->integer('edad');
             $table->string('telefono');
-            $table->enum('type', ['user', 'admin'])->default('user');
-            $table->rememberToken();
+            $table->string('experiencia')->nullable();
+            $table->enum('disponibilidad', ['Total', 'Tardes', 'Fines de semana', 'Dia exporadico']);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('arbitros');
     }
 };

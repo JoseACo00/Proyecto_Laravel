@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CanchasController;
-use App\Http\Controllers\ClientesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArbitrosController;
+use App\Http\Controllers\PartidosController;
+use App\Http\Controllers\ReservasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::get('/', function () {
-    return view('Inicio');
+    return view('inicio');
 });
 
     //Con los controllers se pueden generar rutas automaticamente , haciendolas más fácil y no tener que estar creaando cada ruta para edit, index, update ...
@@ -34,18 +36,29 @@ Route::get('/canchas/create',
 Route::get('/canchas/create',
     [CanchasController::class, 'create']); */
 
-Route::resource('canchas', 
-    CanchasController::class);
+    Route::view('/login', "login")->name('login');
+
+    Route::view('/registro', "register")->name('registro');
     
-Route::get('/clientes',
-    [ClientesController::class, 'index']);
-
-Route::get('/clientes/create',
-    [ClientesController::class, 'create']);
+    Route::view('/privada', "secret")->middleware('auth')->name('privada');
+    ;
     
-Route::get('/contacto',function () {
-    return view('contacto');
-});
-
-
+    Route::post('/validar-registro',[LoginControLLer::class, 'register'])->name('validar-registro');
+    
+    Route::post('/inicia-sesion',[LoginControLLer::class, 'login'])->name('inicia-sesion');
+    
+    Route::get('/logout',[LoginControLLer::class, 'logout' ])->name('logout');
+    
+        Route::resource('canchas', 
+        CanchasController::class);
+    
+        Route::resource('arbitros', 
+        ArbitrosController::class);
+    
+        Route::resource('reservas', 
+        ReservasController::class);
+    
+        Route::resource('partidos', 
+        PartidosController::class);
+    
 

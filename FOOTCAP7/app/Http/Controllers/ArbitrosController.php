@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Arbitro;
 use Illuminate\Http\Request;
 
 class ArbitrosController extends Controller
@@ -11,7 +12,16 @@ class ArbitrosController extends Controller
      */
     public function index()
     {
-        //
+        $mensaje = "Está es la lista de arbitros";
+        //Con esto cogemos todos los canchas que esten en la base de datos
+        $arbitros = Arbitro::all();
+
+        return view('arbitros/index', 
+        [
+            'mensaje' => $mensaje,
+            'arbitros' => $arbitros
+
+        ]);
     }
 
     /**
@@ -19,7 +29,7 @@ class ArbitrosController extends Controller
      */
     public function create()
     {
-        //
+        return view ('arbitros/create');
     }
 
     /**
@@ -27,7 +37,16 @@ class ArbitrosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $arbitro = new Arbitro();
+        $arbitro-> nombre = $request->input('nombre');
+        $arbitro-> apellido_1 = $request->input('apellido_1');
+        $arbitro-> apellido_2 = $request->input('apellido_2');
+        $arbitro-> email = $request->input('email');
+        $arbitro-> telefono = $request->input('telefono');
+        $arbitro-> experiencia = $request->input('experiencia');
+        $arbitro-> disponibilidad = $request->input('disponibilidad');
+        $arbitro->save();
+        return redirect('arbitros');
     }
 
     /**
@@ -35,7 +54,12 @@ class ArbitrosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $arbitro = Arbitro::find($id);
+        return view('arbitros/show', 
+        [
+            'arbitro' => $arbitro
+        ]
+        );
     }
 
     /**

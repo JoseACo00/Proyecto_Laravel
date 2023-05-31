@@ -55,7 +55,7 @@
                             <td>{{ $cancha->disponibilidad }}</td>
                             <td>
                                 <form method="get" action="{{ route('canchas.show', ['cancha' => $cancha -> id] )}}">
-                                    <button type="submit" class="btn btn-primary btn-sm">Ver</button>
+                                    <button type="submit" class="btn btn-primary ">Ver</button>
                                 </form>
                             </td>
                             <td>

@@ -80,7 +80,13 @@ class CanchasController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cancha = Cancha::find($id);
+
+        return view('canchas/edit',
+            [
+                'cancha' => $cancha
+            ]
+        );
     }
 
     /**
@@ -88,7 +94,22 @@ class CanchasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cancha = Cancha::find($id);
+
+        $cancha -> nombre = $request -> input('nombre');
+        $cancha -> localidad = $request -> input('localidad');
+        $cancha -> direccion = $request ->input('direccion');
+        $cancha -> precio = $request -> input('precio');
+        if ($request->hasFile('foto')) {
+            $uploadedImage = $request->file('foto');
+            $imagePath = $uploadedImage->store('imagenes/canchas', 'public');
+            $cancha->foto = $imagePath;
+        }
+        $cancha -> disponibilidad = $request -> input('disponibilidad');
+
+        $cancha -> save();
+
+        return redirect('canchas');
     }
 
     /**

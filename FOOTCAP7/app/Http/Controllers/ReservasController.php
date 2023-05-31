@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reserva;
+use App\Models\Cancha;
+use App\Models\User;
+
 
 class ReservasController extends Controller
 {
@@ -11,7 +15,12 @@ class ReservasController extends Controller
      */
     public function index()
     {
-        //
+        $mensaje = "Esta es la lista de Reservas";
+        $reservas = Reserva::all();
+        $users = User::all();
+        $canchas = Cancha::all();
+    
+        return view('reservas.index', compact('mensaje', 'reservas', 'users', 'canchas'));
     }
 
     /**
@@ -19,7 +28,10 @@ class ReservasController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        $canchas = Cancha::all();
+
+        return view('reservas.create', compact('users', 'canchas'));
     }
 
     /**
@@ -27,7 +39,23 @@ class ReservasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reserva = new Reserva();
+        $reserva->user_id = $request->user_id;
+        $reserva->cancha_id = $request->cancha_id;
+        $reserva->fecha_reserva = $request->input('fecha_reserva');
+        $reserva->hora_inicio_reserva = $request->input('hora_inicio_reserva');
+        $reserva->hora_fin_reserva = $request->input('hora_fin_reserva');
+        $reserva->arbitro = $request->has('arbitro');
+        $reserva->metodo_pago = $request->input('metodo_pago');
+        $reserva->comprobante_pago = $request->comprobante_pago;
+        if ($request->hasFile('comprobante_pago')) {
+            $uploadedImage = $request->file('comprobante_pago');
+            $path = $uploadedImage->store('users/comprobantes', 'public');
+            $reserva->comprobante_pago = $path;
+        }
+        $reserva->save();
+
+        return redirect()->route('reservas.index')->with('success', 'Reserva creada exitosamente');
     }
 
     /**
@@ -35,7 +63,12 @@ class ReservasController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $reserva = Reserva::find($id);
+        return view('reservas/show', 
+        [
+            'reserva' => $reserva
+        ]
+        );
     }
 
     /**
