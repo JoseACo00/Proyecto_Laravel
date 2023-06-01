@@ -39,12 +39,18 @@ class LoginController extends Controller
 
         if(Auth::attempt($credentials,$remember)){
             $request->session()->regenerate();
-            return redirect()->intended(route('privada'));
+            $user = Auth::user();
 
-        }else{
+            if($user->type === 'admin'){
+                return redirect()->intended(route('dashboard'));
+            } else {
+                return redirect()->intended(route('privada'));
+            }
+        } else {
             return redirect('login');
         }
     }
+    
 
     public function logout(Request $request){
         Auth::logout();

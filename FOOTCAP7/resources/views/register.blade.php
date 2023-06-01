@@ -44,7 +44,7 @@
           </div>
 
           <div class="form-outline form-white mb-4">
-            <input type="number" id="edad" class="form-control form-control-lg" name="edad" required />
+            <input type="number" id="edad" class="form-control form-control-lg"  min="16" name="edad" required />
             <label class="form-label" for="edad">Edad</label>
           </div>
 

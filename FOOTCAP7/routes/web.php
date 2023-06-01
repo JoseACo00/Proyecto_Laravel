@@ -41,7 +41,7 @@ Route::get('/canchas/create',
     Route::view('/registro', "register")->name('registro');
     
     Route::view('/privada', "secret")->middleware('auth')->name('privada');
-    ;
+    
     
     Route::post('/validar-registro',[LoginControLLer::class, 'register'])->name('validar-registro');
     
@@ -61,4 +61,6 @@ Route::get('/canchas/create',
         Route::resource('partidos', 
         PartidosController::class);
     
-
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
