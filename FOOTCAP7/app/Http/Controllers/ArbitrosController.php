@@ -67,7 +67,13 @@ class ArbitrosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $arbitro = Arbitro::find($id);
+
+        return view('arbitros/edit',
+            [
+                'arbitro' => $arbitro
+            ]
+        );
     }
 
     /**
@@ -75,14 +81,28 @@ class ArbitrosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $arbitro = Arbitro::find($id);
+
+
+        $arbitro->nombre = $request->input('nombre');
+        $arbitro->apellido_1 = $request->input('apellido_1');
+        $arbitro->apellido_2 = $request->input('apellido_2');
+        $arbitro->email = $request->input('email');
+        $arbitro->telefono = $request->input('telefono');
+        $arbitro->experiencia = $request->input('experiencia');
+        $arbitro->disponibilidad = $request->input('disponibilidad');
+        $arbitro->save();
+        return redirect('arbitros');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $arbitro = Arbitro::find($id);
+        $arbitro->delete();
+        return redirect()->route('arbitros.index');
     }
 }

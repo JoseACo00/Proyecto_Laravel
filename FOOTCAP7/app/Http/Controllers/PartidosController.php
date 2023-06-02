@@ -101,6 +101,13 @@ class PartidosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $partido = Partido::find($id);
+    
+    if ($partido) {
+        $partido->delete();
+        return redirect()->route('partidos.index')->with('success', 'El partido se ha eliminado correctamente.');
+    } else {
+        return redirect()->route('partidos.index')->with('error', 'No se encontró el partido especificado.');
     }
+}
 }

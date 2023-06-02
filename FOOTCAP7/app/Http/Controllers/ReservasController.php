@@ -15,6 +15,8 @@ class ReservasController extends Controller
      */
     public function index()
     {
+        $reservas = Reserva::where('user_id', auth()->user()->id)->get();
+    return view('reservas.index', compact('reservas'));
         $mensaje = "Esta es la lista de Reservas";
         $reservas = Reserva::all();
         $users = User::all();
@@ -76,7 +78,11 @@ class ReservasController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $reserva = Reserva::find($id);
+        $users = User::all();
+        $canchas = Cancha::all();
+    
+        return view('reservas.edit', compact('reserva', 'users', 'canchas'));
     }
 
     /**
@@ -84,7 +90,23 @@ class ReservasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $reserva = Reserva::find($id);
+        $reserva->user_id = $request->user_id;
+        $reserva->cancha_id = $request->cancha_id;
+        $reserva->fecha_reserva = $request->input('fecha_reserva');
+        $reserva->hora_inicio_reserva = $request->input('hora_inicio_reserva');
+        $reserva->hora_fin_reserva = $request->input('hora_fin_reserva');
+        $reserva->arbitro = $request->has('arbitro');
+        $reserva->metodo_pago = $request->input('metodo_pago');
+        $reserva->comprobante_pago = $request->comprobante_pago;
+        if ($request->hasFile('comprobante_pago')) {
+            $uploadedImage = $request->file('comprobante_pago');
+            $path = $uploadedImage->store('users/comprobantes', 'public');
+            $reserva->comprobante_pago = $path;
+        }
+        $reserva->save();
+    
+        return redirect()->route('reservas.index')->with('success', 'Reserva actualizada exitosamente');
     }
 
     /**
@@ -92,6 +114,10 @@ class ReservasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $reserva = Reserva::find($id);
+        $reserva->delete();
+        return redirect()->route('reservas.index');
+    
+
     }
 }

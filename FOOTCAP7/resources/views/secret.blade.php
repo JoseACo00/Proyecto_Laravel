@@ -20,6 +20,9 @@
             <h2>Tu sección privada</h2>
         </article>
         <a href="canchas">Canchas</a>
+        <a href="arbitros">Listado de arbitros</a>
+        <a href="reservas">Mis reservas</a>
+        <a href="partidos">Mis partidos</a>
 
         <a href="canchas"></a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
