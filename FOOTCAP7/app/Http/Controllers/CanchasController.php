@@ -45,7 +45,17 @@ class CanchasController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+
     {
+        $request->validate([
+            'nombre' =>  'required|regex:/^[a-zA-Z\s]+$/|min:3|max:25',
+            'localidad' => 'required|regex:/^[a-zA-Z\s]+$/|min:3|max:255',
+            'direccion' => 'required|min:3|max:255',
+            'precio' => 'required|numeric|min:0',
+            'foto' => 'nullable|image|max:1500',
+            'disponibilidad' => 'required',
+        ]);
+        
         $cancha = new Cancha;
         $cancha -> nombre = $request ->input('nombre');
         $cancha -> localidad = $request ->input('localidad');

@@ -37,6 +37,16 @@ class ArbitrosController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' =>  'required|regex:/^[a-zA-Z\s]+$/|min:3|max:25',
+            'apellido_1' => 'required|string|max:255',
+            'apellido_2' => 'required|string|max:255',
+            'email' => 'required|email|unique:arbitros,email|max:255',
+            'telefono' => 'required|unique:arbitros,telefono|regex:/^[0-9]{9}$/',
+            'experiencia' => 'required|string|max:255',
+            'disponibilidad' => 'required',
+        ]);
+        
         $arbitro = new Arbitro();
         $arbitro-> nombre = $request->input('nombre');
         $arbitro-> apellido_1 = $request->input('apellido_1');

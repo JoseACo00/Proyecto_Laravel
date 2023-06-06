@@ -15,8 +15,7 @@ class ReservasController extends Controller
      */
     public function index()
     {
-        $reservas = Reserva::where('user_id', auth()->user()->id)->get();
-    return view('reservas.index', compact('reservas'));
+        
         $mensaje = "Esta es la lista de Reservas";
         $reservas = Reserva::all();
         $users = User::all();
@@ -41,6 +40,17 @@ class ReservasController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            
+            'fecha_reserva' => 'required|date|unique:reservas,fecha_reserva,NULL,id,cancha_id,' . $request->cancha_id,
+            'hora_inicio_reserva' => 'required|date_format:H:i',
+            'hora_fin_reserva' => 'required|date_format:H:i|after:hora_inicio_reserva',
+            'arbitro' => 'required',
+            'metodo_pago' => 'required|in:Efectivo,Tarjeta,Bizum',
+            'comprobante_pago' => 'nullable|max:2048',
+        
+       
+    ]);
         $reserva = new Reserva();
         $reserva->user_id = $request->user_id;
         $reserva->cancha_id = $request->cancha_id;

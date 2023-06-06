@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Editar videojuego</h1>
+        <h1>Editar Cancha</h1>
 
         <div class="row">
             <div class="col-9">

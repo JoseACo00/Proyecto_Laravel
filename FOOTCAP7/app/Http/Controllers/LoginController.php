@@ -12,6 +12,17 @@ class LoginController extends Controller
 {
 
     public function register(Request $request){
+        //Validacion de datos del usser
+        $request->validate([
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/|min:3|max:25',
+            'apellido_1' => 'required|regex:/^[a-zA-Z\s]+$/|min:3|max:25',
+            'apellido_2' => 'required|regex:/^[a-zA-Z\s]+$/|min:3|max:25',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:5',
+            'edad' => 'required|numeric|min:16|max:90',
+            'telefono' => 'required|regex:/^[0-9]{9}$/|unique:users,telefono',
+        ]);
+        
          
         $user = new User();
         $user ->name = $request->name;
@@ -44,7 +55,7 @@ class LoginController extends Controller
             if($user->type === 'admin'){
                 return redirect()->intended(route('dashboard'));
             } else {
-                return redirect()->intended(route('privada'));
+                return redirect()->intended(route('dashboard'));
             }
         } else {
             return redirect('login');
