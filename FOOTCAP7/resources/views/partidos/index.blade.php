@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">  
-    <link rel="stylesheet" href="{{asset('estilos.css')}}">        
+    <link rel="stylesheet" href="{{asset('estilos.css')}}">
+    
     <title>Partidos</title>
 </head>
 <body id="index_reservas">
@@ -19,9 +20,17 @@
           <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
         </div>
     
-        <nav class="navbar">
+        <nav class="navbar navbar-expand">
+            @auth
+        @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+            <a href="{{ route('dashboard') }}">Inicio</a>
+        @else
             <a href="/">Inicio</a>
-            <a href="#">Nosotros</a>
+        @endif
+    @else
+        <a href="/">Inicio</a>
+    @endauth
+            <a href="/nosotros">Nosotros</a>
             
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,7 +50,7 @@
                 </ul>
             </div>
             
-            <a href="#">Servicios</a>
+            <a href="/servicios">Servicios</a>
             <a href="contacto">Contacto</a>
             
             <div class="user-info">
@@ -58,10 +67,18 @@
         </nav>
         
         
-    </div><br><br>
+    </div>
+    <header class="content header">
+        <h2 class="title">Partidos</h2>
+    
+        <div class="btn-home">
+            
+        </div>
+    </header><br><br>
+    
 
     <div class="container">
-        <p>{{ $mensaje }}</p>
+
         <div class="row">
             <div class="col-12">
                 <h1>Lista de Partidos</h1>
@@ -85,40 +102,89 @@
                     </thead>
                     <tbody>
                         @foreach($partidos as $partido)
-                            @if(Auth::user()->type === 'admin' || Auth::user()->id === $partido->user_id)
-                                <tr>
-                                    <td>{{ $partido->user->name }}</td>
-                                    <td>{{ $partido->user->email }}</td>
-                                    <td>{{ $partido->cancha->nombre }}</td>
-                                    <td>{{ $partido->reserva->fecha_reserva }}</td>
-                                    <td>{{ $partido->reserva->hora_inicio_reserva }}</td>
-                                    <td>{{ $partido->reserva->hora_fin_reserva }}</td>
-                                    <td>{{ $partido->arbitro ? 'Sí' : 'No' }}</td>
-                                    <td>{{ $partido->estado }}</td>
-                                    @auth
-                                    @if(Auth::user()->type === 'admin' || Auth::user()->id === $partido->user_id)
-                                    <td>
-                                        <form method="get" action="{{ route('partidos.show', ['partido' => $partido->id]) }}">
-                                            <button type="submit" class="btn btn-primary">Ver</button>
-                                        </form>
-                                    </td>
+                        @if(Auth::user()->type === 'admin' || Auth::user()->id === $partido->user_id)
+                            <tr>
+                                <td>{{ $partido->user->name }}</td>
+                                <td>{{ $partido->user->email }}</td>
+                                <td>{{ $partido->cancha->nombre }}</td>
+                                <td>{{ $partido->reserva->fecha_reserva }}</td>
+                                <td>{{ $partido->reserva->hora_inicio_reserva }}</td>
+                                <td>{{ $partido->reserva->hora_fin_reserva }}</td>
+                                <td>{{ $partido->arbitro ? 'Sí' : 'No' }}</td>
+                                <td>{{ $partido->estado }}</td>
+                                @auth
+                                    @if(Auth::user()->type === 'admin')
+                                        <td>
+                                            <form method="get" action="{{ route('partidos.show', ['partido' => $partido->id]) }}">
+                                                <button type="submit" class="btn btn-primary">Ver</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="{{ route ('partidos.destroy', ['partido' => $partido->id])}}" onsubmit="deletePartido(event)">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Borrar</button>
+                                            </form>
+                                        </td>
                                     @endif
-                                    @endif
-                                </tr>
-                            @endif
-                        @endforeach
+                                @endauth
+                            </tr>
+                        @endif
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         </div>  
+        <div id="message-container"></div> 
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <p>Partido  borradao!</p>
+                <p>El partido a sido eliminada exitosamente.</p>
+            </div>
+        </div>
     </div>
-    <br> 
+    <script>
+        function deletePartido(event) {
+            event.preventDefault(); // Detener el envío del formulario
+            
+            const form = event.target; // Obtener el formulario
+            const deleteUrl = form.action; // Obtener la URL de eliminación
     
-
-    <button type="button" class="btn btn-success">
-        <a style="color: white; text-decoration: none;" href="/reservas/create">Crear partido</a>
-    </button>
-
+            fetch(deleteUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ _method: 'DELETE' }) // Enviar la solicitud DELETE como POST con _method
+            })
+            .then(response => {
+                if (response.ok) {
+                    const row = form.closest('tr');
+                    row.style.display = 'none'; // Ocultar la fila de la cancha eliminada
+        
+                    const modal = document.getElementById('confirmation-modal');
+                    modal.style.display = 'block'; // Mostrar la ventana modal
+        
+                    const messageContainer = document.getElementById('message-container');
+                    messageContainer.innerText = 'Partido borrado';
+                    messageContainer.classList.add('mensaje-rojo'); // Agregar clase CSS al mensaje
+                } else {
+                    console.error('Error al eliminar el partido:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar el partido:', error);
+            });
+        }
+    
+        function closeModal() {
+            const modal = document.getElementById('confirmation-modal');
+            modal.style.display = 'none';
+        }
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
 </body>

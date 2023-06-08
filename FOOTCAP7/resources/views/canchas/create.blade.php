@@ -18,27 +18,37 @@
     <div class="logo">
       <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
     </div>
-
-    <nav class="navbar">
+    <nav class="navbar navbar-expand">
+        @auth
+    @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+        <a href="{{ route('dashboard') }}">Inicio</a>
+    @else
         <a href="/">Inicio</a>
-        <a href="#">Nosotros</a>
+    @endif
+@else
+    <a href="/">Inicio</a>
+@endauth
+        <a href="/nosotros">Nosotros</a>
         
         <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Canchas
             </a>
             <ul class="dropdown-menu" aria-labelledby="canchasDropdown">
-                <li><a class="dropdown-item" href="canchas">Canchas</a></li>
+                <li style="background-color: black"><a class="dropdown-item" href="canchas">Canchas</a></li>
                 @auth
                     @if(Auth::user()->type === 'user')
-                        <li><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
-                        <li><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                    @elseif(Auth::user()->type === 'admin')
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Reservas</a></li>
                     @endif
                 @endauth
             </ul>
         </div>
         
-        <a href="#">Servicios</a>
+        <a href="/servicios">Servicios</a>
         <a href="contacto">Contacto</a>
         
         <div class="user-info">
@@ -53,6 +63,7 @@
         
         <a href="{{ route('logout') }}"><button type="button" class="btn btn-outline-primary me-2">Salir</button></a>
     </nav>
+    
 
     </div>
     <header class="content header">
@@ -67,7 +78,7 @@
                     @csrf 
                     <div class="form-group mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input id="nombre" class="form-control" type="text" name="nombre" placeholder="Introduce el nombre de la cancha" required>
+                        <input id="nombre" class="form-control" type="text" name="nombre" placeholder="Introduce el nombre de la cancha" value="{{old('nombre')}}"required>
                         @error('nombre')
                             <br>
                             <span style="color: rgb(255, 0, 0)">Error: El nombre es obligatorio</span>   
@@ -77,7 +88,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="localidad" class="form-label">Localidad</label>
-                        <input id="localidad" class="form-control" type="text" name="localidad" placeholder="Introduce la localidad donde está el campo" required>
+                        <input id="localidad" class="form-control" type="text" name="localidad" placeholder="Introduce la localidad donde está el campo" value="{{old('localidad')}}"required>
                         @error('localidad')
                         <br>
                         <span style="color: rgb(255, 0, 0)">Error: La localidad es obligatorio</span>   
@@ -87,7 +98,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="direccion" class="form-label">Dirección</label>
-                        <input id="direccion" class="form-control" type="text" name="direccion" placeholder="Introduce la dirección del campo" required>
+                        <input id="direccion" class="form-control" type="text" name="direccion" placeholder="Introduce la dirección del campo" value="{{old('direccion')}}" required>
                         @error('direccion')
                         <br>
                         <span style="color: rgb(255, 0, 0)">Error: La direccion es obligatorio</span>   
@@ -96,7 +107,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="precio" class="form-label">Precio</label>
-                        <input id="precio" class="form-control" type="number" name="precio" placeholder="Introduce el Precio" required>
+                        <input id="precio" class="form-control" type="number" name="precio" placeholder="Introduce el Precio" value="{{old('precio')}}"required>
                         @error('precio')
                         <br>
                         <span style="color: rgb(255, 0, 0)">Error: El precio es obligatorio</span>  
@@ -115,19 +126,38 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="disponibilidad" class="form-label">Disponibilidad</label>
-                        <select id="disponibilidad" class="form-control" name="disponibilidad" required>
+                        <select id="disponibilidad" class="form-control" name="disponibilidad"  value="{{old('disponibilidad')}}"required>
                             <option value="Todos los dias">Todos los dias</option>
                             <option value="Turno tarde">Turno Tarde</option>
                             <option value="Fines de semana">Fines de semanas</option>
                             <option value="En reformas">En Reformas</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary" type="submit">Crear</button>
+                    <button class="btn btn-primary" type="submit" onclick="showCanchaCreatedMessage()">Crear</button>
                 </form>
             </div>
         </div>
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <p id="modal-message"></p>
+            </div>
+        </div>
     </div>
-    
+    <script>
+        function showCanchaCreatedMessage() {
+            const message = 'Cancha creada';
+        
+            // Realizar aquí las acciones necesarias después de enviar el formulario
+            // ...
+        
+            const modalMessage = document.getElementById('modal-message');
+            modalMessage.innerText = message;
+        
+            const modal = document.getElementById('confirmation-modal');
+            modal.style.display = 'block';
+        }
+        </script>
     
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

@@ -46,7 +46,7 @@ class ReservasController extends Controller
             'hora_inicio_reserva' => 'required|date_format:H:i',
             'hora_fin_reserva' => 'required|date_format:H:i|after:hora_inicio_reserva',
             'arbitro' => 'required',
-            'metodo_pago' => 'required|in:Efectivo,Tarjeta,Bizum',
+            'metodo_pago' => 'required|in:Metalico,Transferencia bancaria,Bizum',
             'comprobante_pago' => 'nullable|max:2048',
         
        

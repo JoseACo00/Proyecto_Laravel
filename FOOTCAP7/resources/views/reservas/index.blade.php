@@ -18,27 +18,37 @@
     <div class="logo">
       <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
     </div>
-
     <nav class="navbar">
+        @auth
+    @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+        <a href="{{ route('dashboard') }}">Inicio</a>
+    @else
         <a href="/">Inicio</a>
-        <a href="#">Nosotros</a>
+    @endif
+@else
+    <a href="/">Inicio</a>
+@endauth
+        <a href="/nosotros">Nosotros</a>
         
         <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Canchas
             </a>
             <ul class="dropdown-menu" aria-labelledby="canchasDropdown">
-                <li><a class="dropdown-item" href="canchas">Canchas</a></li>
+                <li style="background-color: black"><a class="dropdown-item" href="canchas">Canchas</a></li>
                 @auth
                     @if(Auth::user()->type === 'user')
-                        <li><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
-                        <li><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                    @elseif(Auth::user()->type === 'admin')
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Reservas</a></li>
                     @endif
                 @endauth
             </ul>
         </div>
         
-        <a href="#">Servicios</a>
+        <a href="/servicios">Servicios</a>
         <a href="contacto">Contacto</a>
         
         <div class="user-info">
@@ -53,6 +63,7 @@
         
         <a href="{{ route('logout') }}"><button type="button" class="btn btn-outline-primary me-2">Salir</button></a>
     </nav>
+   
     </div>
     <header class="content header">
         <h2 class="title">Reservas</h2>
@@ -93,6 +104,19 @@
                                             Sin comprobante
                                         @endif
                                     </td>
+                                    <td>
+                                        <form method="get" action="{{ route('reservas.show', ['reserva' => $reserva->id]) }}">
+                                            <button type="submit" class="btn btn-primary">Ver</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{{ route('reservas.destroy', ['reserva' => $reserva->id]) }}" onsubmit="deleteReserva(event)">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Borrar</button>
+                                        </form>
+                                    </td>
+                                   
                                 </tr>
                             @endif
                         @endforeach
@@ -100,13 +124,62 @@
                 </table>
             </div>
         </div>  
+        <div id="message-container"></div> 
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <p>Reserva borrada!</p>
+                <p>La Reserva ha sido eliminada exitosamente.</p>
+            </div>
+        </div>
     </div>
-    <br> 
+    <script>
+        function deleteReserva(event) {
+            event.preventDefault(); // Detener el envío del formulario
+            
+            const form = event.target; // Obtener el formulario
+            const deleteUrl = form.action; // Obtener la URL de eliminación
     
-
+            fetch(deleteUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ _method: 'DELETE' }) // Enviar la solicitud DELETE como POST con _method
+            })
+            .then(response => {
+                if (response.ok) {
+                    const row = form.closest('tr');
+                    row.style.display = 'none'; // Ocultar la fila de la cancha eliminada
+        
+                    const modal = document.getElementById('confirmation-modal');
+                    modal.style.display = 'block'; // Mostrar la ventana modal
+        
+                    const messageContainer = document.getElementById('message-container');
+                    messageContainer.innerText = 'Reserva borrada';
+                    messageContainer.classList.add('mensaje-rojo'); // Agregar clase CSS al mensaje
+                } else {
+                    console.error('Error al eliminar la Reserva:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar la Reserva:', error);
+            });
+        }
+    
+        function closeModal() {
+            const modal = document.getElementById('confirmation-modal');
+            modal.style.display = 'none';
+        }
+    </script>
+    
+    @if(Auth::user()->type === 'admin')
     <button type="button" class="btn btn-success">
         <a style="color: white; text-decoration: none;" href="/reservas/create">Crear reserva</a>
     </button>
+@endif
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
 </body>

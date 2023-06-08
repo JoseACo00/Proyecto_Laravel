@@ -9,6 +9,42 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
+.mensaje-rojo {
+    color: red;
+}
+ /* Estilo de la ventana modal */
+ .modal {
+display: none;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo del contenido de la ventana modal */
+.modal-content {
+background-color: #37624b;
+margin: 15% auto;
+padding: 20px;
+border: 2px solid #f00;
+width: 60%;
+color: #f00;
+text-align: center;
+font-size: 18px;
+}
+
+/* Estilo del botón de cierre de la ventana modal */
+.modal-close {
+color: #f00;
+float: right;
+font-size: 24px;
+font-weight: bold;
+cursor: pointer;
+}
 
 .head {
     display: flex;
@@ -79,6 +115,14 @@ body {
     color: white;
     
 
+}
+
+.titulonosotros{
+    text-align: center;
+     margin-bottom: 3vh;
+    font-size: 50px;
+    font-weight: 600;
+    color: white;
 }
 
 .titulo2{
@@ -173,7 +217,16 @@ p {
     max-width: auto;
     max-height: 100%;
 }
-
+.nosotrostexto {
+    background: #4e935c;
+    
+    align-items: center;
+    display: flex;
+    padding: auto;
+    margin: auto;
+    max-width: auto;
+    max-height: 100%;
+}
 
 
 
@@ -244,11 +297,18 @@ p {
     
 }
 
+.imagen4 {
+    width: 50%;
+}
 .imagen2 {
     width: 50%;
     
 }
 
+.imagen4 img {
+    width: 50vw;
+    object-fit: contain;
+}
 .imagen2 img {
     width: 50vw;
     object-fit: contain;

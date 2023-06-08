@@ -20,9 +20,17 @@
           <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
         </div>
     
-        <nav class="navbar">
+        <nav class="navbar navbar-expand">
+            @auth
+        @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+            <a href="{{ route('dashboard') }}">Inicio</a>
+        @else
             <a href="/">Inicio</a>
-            <a href="#">Nosotros</a>
+        @endif
+    @else
+        <a href="/">Inicio</a>
+    @endauth
+            <a href="/nosotros">Nosotros</a>
             
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -42,7 +50,7 @@
                 </ul>
             </div>
             
-            <a href="#">Servicios</a>
+            <a href="/servicios">Servicios</a>
             <a href="contacto">Contacto</a>
             
             <div class="user-info">
@@ -63,7 +71,6 @@
 
 <header class="content header">
     <h2 class="title">Inicio</h2>
-    <center><button class="btn btn-block btn-outline-light">Conócenos</button></center>
 
     <div class="btn-home">
         
@@ -80,7 +87,7 @@
         <div class="box">
             <i class="fa-solid fa-phone"></i>
             <h3>Atención 24 H</h3><br>
-            <p>Desde Footcap7 nos encargaremos de porder asesoramiento las 24 horas del dia para una mejor comunicación , mejorando así tu experiencia y resolviendo caulquier duda</p>
+            <p>Nosotros nos encargaremos de poder darte una atención  las 24 horas del dia para un mejor servicio, mejorando así tu experiencia y ayudandote</p>
         </div>
         <div class="box">
             <i class="fa-solid fa-notes-medical" style="color: #ffffff;"></i>

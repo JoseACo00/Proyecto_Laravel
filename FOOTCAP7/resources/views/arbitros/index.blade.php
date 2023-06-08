@@ -12,6 +12,7 @@
     <title>Arbitros</title>
 </head>
 <body id="index_arbitros">
+    
     @extends('layout')
     <div class="head">
 
@@ -20,21 +21,49 @@
     </div>
 
     <nav class="navbar">
+        @auth
+    @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+        <a href="{{ route('dashboard') }}">Inicio</a>
+    @else
         <a href="/">Inicio</a>
-        <a href="#">Nosotros</a>
-        <a href="canchas">Canchas</a>
-        <a href="#">Servicios</a>
+    @endif
+@else
+    <a href="/">Inicio</a>
+@endauth
+        <a href="/nosotros">Nosotros</a>
+        
+        <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Canchas
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="canchasDropdown">
+                <li style="background-color: black"><a class="dropdown-item" href="canchas">Canchas</a></li>
+                @auth
+                    @if(Auth::user()->type === 'user')
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                    @elseif(Auth::user()->type === 'admin')
+                        <li style="background-color: black"><a class="dropdown-item" href="partidos">Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="reservas">Reservas</a></li>
+                    @endif
+                @endauth
+            </ul>
+        </div>
+        
+        <a href="/servicios">Servicios</a>
         <a href="contacto">Contacto</a>
+        
         <div class="user-info">
             @auth
                 @if(Auth::user()->type === 'admin')
                     <p>Soy el admin: {{ Auth::user()->name }}</p>
                 @else
-                    <p>Soy el usurio , {{ Auth::user()->name }}</p>
+                    <p>Soy el usuario, {{ Auth::user()->name }}</p>
                 @endif
             @endauth
         </div>
-        <a href="{{route('logout')}}"><button type="button" class="btn btn-outline-primary me-2">Salir</button> </a>
+        
+        <a href="{{ route('logout') }}"><button type="button" class="btn btn-outline-primary me-2">Salir</button></a>
     </nav>
 
     </div>

@@ -6,9 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <title>Document</title>
-    <link rel="stylesheet" href="assets('estilos.css')">
+    <link rel="stylesheet" href="{{asset('estilos.css')}}">
 </head>
 <body>
+  <div class="head">
+
+    <div class="logo">
+      <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
+    </div>
+
+    <nav class="navbar navbar-expand">
+        <a href="/">Inicio</a>
+        <a href="nosotros ">Nosotros</a>
+        <a href="canchas">Canchas</a>
+        <a href="/servicios">Servicios</a>
+        <a href="contacto">Contacto</a>
+        <a href="login">Login</a>
+    </nav>
+
+</div>
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -16,6 +32,7 @@
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
                         <div class="mb-md-5 mt-md-4 pb-5">
+                          <h1>Registrate En Footcap7</h1>
         <form method="POST" action="{{route('validar-registro')}}" novalidate>
         @csrf
         <div class="form-outline form-white mb-4">
@@ -115,7 +132,7 @@
         </div>
 
         <div>
-          <p class="mb-0">Don't have an account? <a href="login" class="text-white-50 fw-bold">Iniciar sesión</a>
+          <p class="mb-0">Si tienes una cuenta ya  <a href="login" class="text-white-50 fw-bold">Iniciar sesión</a>
           </p>
         </div>
 

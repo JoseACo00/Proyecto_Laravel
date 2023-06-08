@@ -19,10 +19,10 @@
     </div>
 
     <nav class="navbar">
-        <a href="">Inicio</a>
-        <a href="#">Nosotros</a>
+        <a href="/">Inicio</a>
+        <a href="nosotros ">Nosotros</a>
         <a href="canchas">Canchas</a>
-        <a href="#">Servicios</a>
+        <a href="/servicios">Servicios</a>
         <a href="contacto">Contacto</a>
         <a href="login">Login</a>
     </nav>
@@ -30,9 +30,6 @@
 </div>
     <header class="content header">
         <h2 class="title">Inicio</h2>
-        <center><button class="btn btn-block btn-outline-light">Conócenos</button></center>
-
-        <div class="btn-home">
             
         </div>
     </header>
@@ -47,7 +44,7 @@
             <div class="box">
                 <i class="fa-solid fa-phone"></i>
                 <h3>Atención 24 H</h3><br>
-                <p>Desde Footcap7 nos encargaremos de porder asesoramiento las 24 horas del dia para una mejor comunicación , mejorando así tu experiencia y resolviendo caulquier duda</p>
+                <p>Nosotros nos encargaremos de poder darte una atención  las 24 horas del dia para un mejor servicio, mejorando así tu experiencia y ayudandote</p>
             </div>
             <div class="box">
                 <i class="fa-solid fa-notes-medical" style="color: #ffffff;"></i>

@@ -68,3 +68,11 @@ Route::get('/canchas/create',
         Route::get('/contacto', function () {
            return view('contacto'); 
         });
+        Route::get('/nosotros', function () {
+            return view('nosotros'); 
+         });
+         Route::get('/servicios', function () {
+            return view('servicios'); 
+         });
+
+        

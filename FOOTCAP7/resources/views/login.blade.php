@@ -9,26 +9,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="{{asset('estilos.css')}}">
-
 </head>
+
 <body>
+      @extends('layout')
     <div class="head">
 
-        <div class="logo">
-          <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
-        </div>
-    
-        <nav class="navbar">
-            <a href="/">Inicio</a>
-            <a href="#">Nosotros</a>
-            <a href="canchas">Canchas</a>
-            <a href="#">Servicios</a>
-            <a href="('contacto')">Contacto</a>
-            
-    
-    </div><br><br><br>
+    <div class="logo">
+      <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
+    </div>
+
+    <nav class="navbar">
+        <a href="/">Inicio</a>
+        <a href="nosotros ">Nosotros</a>
+        <a href="canchas">Canchas</a>
+        <a href="/servicios">Servicios</a>
+        <a href="contacto">Contacto</a>
+        <a href="login">Login</a>
+    </nav>
+
+</div>
+<header class="content header">
+    <h2 class="title">Iniciar sesión</h2>
+
+    <div class="btn-home">
+        
+    </div>
+</header>
+<div style="background-color:  #4e935c ">
     <main class="container align-center p-5">
-        <form method="POST"  action="{{route('inicia-sesion')}}" novalidate>
+        <form  id="loginForm" method="POST"  action="{{route('inicia-sesion')}}">
      @csrf
      <div class="loggin">
         <div class="mb-3">
@@ -47,12 +57,15 @@
             <label class="form-check-label" for="rememberCheck">Mantener sesión iniciada</label>
         </div>
         <div>
-            <p>Cra una cuenta <a href="{{route('registro')}}">Registrarse</a></p>
+            <p>Create  una cuenta <a style="color: white"href="{{route('registro')}}">Registrarse</a></p>
         </div>
         <button type="submit" class="btn btn-primary">Acceder</button>
     </div>
     </form>
     </main>  
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
 </body>

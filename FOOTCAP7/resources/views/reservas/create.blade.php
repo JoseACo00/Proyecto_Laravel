@@ -19,27 +19,38 @@
       <img src="{{ asset('Fotos/Logo_empresa.png') }}" width="80">
     </div>
 
-    <nav class="navbar">
+    <nav class="navbar navbar-expand">
+        @auth
+    @if(Auth::user()->type === 'user' || Auth::user()->type === 'admin')
+        <a href="{{ route('dashboard') }}">Inicio</a>
+    @else
         <a href="/">Inicio</a>
-        <a href="#">Nosotros</a>
+    @endif
+@else
+    <a href="/">Inicio</a>
+@endauth
+        <a href="/nosotros">Nosotros</a>
         
         <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" id="canchasDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Canchas
             </a>
             <ul class="dropdown-menu" aria-labelledby="canchasDropdown">
-                <li><a class="dropdown-item" href="canchas">Canchas</a></li>
+                <li style="background-color: black"><a class="dropdown-item" href="canchas">Canchas</a></li>
                 @auth
                     @if(Auth::user()->type === 'user')
-                        <li><a class="dropdown-item" href="partidos">Mis Partidos</a></li>
-                        <li><a class="dropdown-item" href="reservas">Mis Reservas</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="/partidos">Mis Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="/reservas">Mis Reservas</a></li>
+                    @elseif(Auth::user()->type === 'admin')
+                        <li style="background-color: black"><a class="dropdown-item" href="/partidos">Partidos</a></li>
+                        <li style="background-color: black"><a class="dropdown-item" href="/reservas">Reservas</a></li>
                     @endif
                 @endauth
             </ul>
         </div>
         
-        <a href="#">Servicios</a>
-        <a href="contacto">Contacto</a>
+        <a href="/servicios">Servicios</a>
+        <a href="/contacto">Contacto</a>
         
         <div class="user-info">
             @auth
@@ -137,8 +148,27 @@
                 </form>
             </div>
         </div>
+        {{-- <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <p id="modal-message"></p>
+            </div>
+        </div> --}}
     </div>
-    
+    {{-- <script>
+        function showCanchaCreatedMessage() {
+            const message = 'La reserva se creó perfectamente';
+        
+            // Realizar aquí las acciones necesarias después de enviar el formulario
+            // ...
+        
+            const modalMessage = document.getElementById('modal-message');
+            modalMessage.innerText = message;
+        
+            const modal = document.getElementById('confirmation-modal');
+            modal.style.display = 'block';
+        }
+        </script> --}}
     
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

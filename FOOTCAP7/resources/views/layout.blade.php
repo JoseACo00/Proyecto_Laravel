@@ -16,14 +16,14 @@
                  <h3 class="text-center fw-bold">¿Te gustarÍa pertenecer a Footcap7 como arbitro? </h3>
                  <p class="text-center">Puesdes lograrlo rellenando el formulario y formar parte de nosotros.<br>
                      Podras arbitrar y recibir dinero por ello, si tienes alguna duda ponte en  contactos con nosotros</p>
-                 <center><button class="btn btn-block btn-outline-light">Accede</button></center>
+                 <center><a href="{{ route('arbitros.create') }}" class="btn btn-block btn-outline-light">Accede</a></center>
                  <hr>
              </div>
      
              <div class="row justify-content-around text-center text-md-start">
      
                  <div class="col-md-2 text-center">
-                     <img src="descarga.png">
+                    <img src= "{{ asset('Fotos/Logo_empresa.png') }}">
                      <h4>Footcap7</h4>
                  </div>
                  <div class="col-md-2">
@@ -68,7 +68,7 @@
              <hr>
              <div class="row">
                  <div class="col-md-12 text-center pt-2">
-                     <p>&copy; 2022 Copyright <a href="#" class="text-white">© SOMOS.plus 2023 Todos Los Derechos Reservados.</a></p>
+                     <p>&copy; Footcap7 20223 Copyright <a href="#" class="text-white">© Footcap7 2023 Todos Los Derechos Reservados.</a></p>
                  </div>
              </div>
          </div>
