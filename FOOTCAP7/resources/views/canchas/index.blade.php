@@ -136,7 +136,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Paso 3: Realiza el pago</h2>
-                <p>Una vez seleccionada la cancha, podrás proceder a realizar la reserva. Puedes realizar el pago mediante Bizum o Transefencia bancaria donde podras subir un comprobante o, si lo prefieres, también aceptamos pagos en efectivo antes o después del encuentro. Después podras ver en tus partidos el estado de tu reserva para ver si el pago de bizum o transferencia es valido</p>
+                <p>Una vez seleccionada la cancha, podrás proceder a realizar la reserva. Puedes realizar el pago mediante Bizum o Transefencia bancaria donde podras subir un comprobante o, si lo prefieres, también aceptamos pagos en efectivo antes o después del encuentro.<br> NUMERO BIZUM: +34633911137 <br> NUMERO DE CUENTA: ES2901252495511182736723</p>
                 <p>Recuerda que el precio mostrado corresponde a una hora de juego. Si deseas añadir un árbitro a tu partido, se aplicará un costo adicional de 20 euros.</p>
             </div>
             <div class="col-md-6">
